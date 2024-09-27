@@ -1,23 +1,43 @@
-import s from "./ContactForm.module.css"
+import { Field, Form, Formik } from "formik";
+import s from "./ContactForm.module.css";
 
-export default function ContactForm( onAdd ) {
+export default function ContactForm() {
+  const initialValues = {
+    username: "",
+    number: "",
+  };
+  const handleSubmit = (values, options) => console.log("values", values);
+  options.resetForm();
+  console.log(options);
 
-    const handleSubmit = (e) => {
-        e.preventDefault();
-        onAdd({
-            id: Date.now(),
-            name: e.target.elements.username.value,
-            number: e.target.elements.number.value
-        });
-        e.target.reset();
-    };
+  return (
+    <div className={s.formWrapper}>
+      <Formik initialValues={{ initialValues }} onSubmit={handleSubmit}>
+        <Form className={s.form}>
+          <label className={s.label}>
+            <span>Name</span>
+            <Field
+              name="username"
+              className={s.input}
+              placeholder="Ведіть імя"
+            />
+          </label>
+          <label className={s.label}>
+            <span>Number</span>
+            <Field
+              name="number"
+              className={s.input}
+              placeholder="Ведіть номер"
+            />
+          </label>
 
-    return (
-      <form onSubmit={handleSubmit} className={s.form}>
-        <input type="text" name="username" />
-        <input type="number" name="number" />
-        <button type="submit">Add contact</button>
-      </form>
-    );
-
+          <button type="submit">Add contact</button>
+        </Form>
+        ;
+      </Formik>
+    </div>
+  );
 }
+
+/* замість input ми використовуємо в Formik бібліотеці Field*/
+/* Замість form використовуємо Form */
