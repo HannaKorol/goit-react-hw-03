@@ -2,8 +2,8 @@ import s from "./ContactForm.module.css"
 
 export default function ContactForm( onAdd ) {
 
-    const handleSubmit = e => {
-        e.preventdefault();
+    const handleSubmit = (e) => {
+        e.preventDefault();
         onAdd({
             id: Date.now(),
             name: e.target.elements.username.value,
@@ -13,11 +13,11 @@ export default function ContactForm( onAdd ) {
     };
 
     return (
-        <form onSubmit={handleSubmit}>
-            <input type="text" name="username"/>
-            <input type="text" name="number" />
-            <button type="submit">Add contact</button>
-        </form>
-    )
+      <form onSubmit={handleSubmit} className={s.form}>
+        <input type="text" name="username" />
+        <input type="number" name="number" />
+        <button type="submit">Add contact</button>
+      </form>
+    );
 
 }
