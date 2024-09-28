@@ -8,11 +8,11 @@ export default function App() {
     const [contacts, setContacts] = useState(initialContacts); //оголосили стан компонента
     const [filter, setFilter] = useState('');
 
-  const addContact = (newContact) => {
+/* const addContact = (newContact) => {
     setContacts((prevContacts) => {
       return [...prevContacts, newContact];
     }); // prevContacts - is the initial state of the useState at the moment of reloading/adding new value;
-  }; // Функція зміни стану
+  }; */ // Функція зміни стану
 
   const deleteContact = (contactId) => {
     setContacts((prevContacts) => {
@@ -27,7 +27,7 @@ export default function App() {
     return (
       <div>
         <h1>Phonebook</h1>
-        <ContactForm onAdd={addContact} />
+        <ContactForm /* onAdd={addContact} */ />
         <SearchBox value={filter} onFilter={setFilter} />
         <ContactList contacts={visibleContacts} onDelete={deleteContact} />
       </div>
