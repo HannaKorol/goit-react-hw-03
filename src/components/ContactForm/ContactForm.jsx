@@ -1,5 +1,6 @@
 import { useId } from "react"; // хук useId для створення унікальних ідентифікаторів полів. ("Елементи форми")
 import { ErrorMessage, Field, Form, Formik } from "formik";
+import { nanoid } from "nanoid";
 import * as Yup from "yup";
 import s from "./ContactForm.module.css";
 
@@ -15,7 +16,7 @@ export default function ContactForm({ onAdd }) {
   const handleSubmit = (values, actions) => {
     //Функція відправки форми має два параметри: values - об'єкт значень полів форми в момент її відправки. actions - об'єкт з допоміжними методами. Наприклад, метод resetForm використовується для очищення полів форми після відправки.
     const newContact = {
-      id: Date.now(),
+      id: nanoid(),
       name: values.name,
       number: values.number,
     };
