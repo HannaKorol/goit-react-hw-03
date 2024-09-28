@@ -1,35 +1,40 @@
 import { useId } from "react"; // хук useId для створення унікальних ідентифікаторів полів. ("Елементи форми")
-import { nanoid } from "nanoid";
 import { ErrorMessage, Field, Form, Formik } from "formik";
 import * as Yup from "yup";
 import s from "./ContactForm.module.css";
 
-export default function ContactForm() {
-  const nameFieldId = useId();
+export default function ContactForm({ onAdd }) {
+  const nameFieldId = useId(); //!!!Не используйте Nano ID для генерации свойства key в JSX. При каждом рендере key будет разный, что плохо скажется на производительности.Для связи <input> и <label> лучше использовать useId, который был добавлен в React 18. (https://github.com/ai/nanoid/blob/main/README.ru.md)
   const numberFieldId = useId();
 
   const initialValues = {
-    username: "",
+    name: "",
     number: "",
   };
 
   const handleSubmit = (values, actions) => {
     //Функція відправки форми має два параметри: values - об'єкт значень полів форми в момент її відправки. actions - об'єкт з допоміжними методами. Наприклад, метод resetForm використовується для очищення полів форми після відправки.
+    const newContact = {
+      id: Date.now(),
+      name: values.name,
+      number: values.number,
+    };
+    onAdd(newContact); // Додаємо новий контакт
     console.log(values);
     actions.resetForm();
   };
 
-const regexPhoneNumber = /\(?([0-9]{3})\)?([ .-]?)([0-9]{3})\2([0-9]{4})/;
+  const regexPhoneNumber = /\(?([0-9]{3})\)?([ .-]?)([0-9]{3})\2([0-9]{4})/;
 
   const contactSchema = Yup.object().shape({
-    username: Yup.string()
+    name: Yup.string()
       .min(3, "Must be more than 3 characters")
       .max(50, "Must be no longer than 50 characters")
       .required("Required"),
     number: Yup.string()
-      .min(3, "Must be more than 3 characters")
-      .max(50, "Must be no longer than 50 characters")
-      .matches(regexPhoneNumber, 'Please enter a valid phone number')
+      .min(3)
+      .max(50)
+      .matches(regexPhoneNumber, "Please enter a valid phone number")
       .required("Required"),
   });
 
@@ -48,13 +53,13 @@ const regexPhoneNumber = /\(?([0-9]{3})\)?([ .-]?)([0-9]{3})\2([0-9]{4})/;
               <span> Name </span>
               <Field
                 type="text"
-                name="username"
+                name="name"
                 id={nameFieldId}
                 className={s.input}
                 placeholder="Ведіть імя"
               />
               <ErrorMessage
-                name="username"
+                name="name"
                 component="div"
                 className={s.error}
               />
