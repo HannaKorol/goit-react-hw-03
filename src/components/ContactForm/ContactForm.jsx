@@ -21,29 +21,35 @@ export default function ContactForm() {
   return (
     <div className={s.formWrapper}>
       <Formik initialValues={{ initialValues }} onSubmit={handleSubmit}>
-        <Form className={s.form}>
-          <label htmlFor={nameFieldId} className={s.label}>
-            <span> Name </span>
-            <Field
-              type="text"
-              name="username"
-              id={nameFieldId}
-              className={s.input}
-              placeholder="Ведіть імя"
-            />
-          </label>
-          <label htmlFor={numberFieldId} className={s.label}>
-            <span>Number</span>
-            <Field
-              type="text"
-              name="number"
-              id={numberFieldId}
-              className={s.input}
-              placeholder="Ведіть номер"
-            />
-          </label>
-          <button type="submit">Add contact</button>
-        </Form>
+        {(
+          { values } //values - щоб зробити кнопку не активною коли немає номеру телефону чи имя
+        ) => (
+          <Form className={s.form}>
+            <label htmlFor={nameFieldId} className={s.label}>
+              <span> Name </span>
+              <Field
+                type="text"
+                name="username"
+                id={nameFieldId}
+                className={s.input}
+                placeholder="Ведіть імя"
+              />
+            </label>
+            <label htmlFor={numberFieldId} className={s.label}>
+              <span>Number</span>
+              <Field
+                type="text"
+                name="number"
+                id={numberFieldId}
+                className={s.input}
+                placeholder="Ведіть номер"
+              />
+            </label> 
+            <button disabled={!values.name && !values.number} type="submit">
+              Add contact
+            </button>
+          </Form>
+        )}
       </Formik>
     </div>
   );
