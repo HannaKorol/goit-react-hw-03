@@ -57,3 +57,14 @@ export default function ContactForm() {
 
 /* замість input ми використовуємо в Formik бібліотеці Field*/
 /* Замість form використовуємо Form */
+
+
+/* План використанння Formik
+1) Встановити цю бібліотеку 
+2) Імпортувати і використати <Formik></Formik>
+3) Додати в середину Formik компонент Form
+4) Створити довільну кількість Field 
+5) Додати кнопку с типом submit
+6) Створюємо initialValues та handleSubmit
+7) Передаємо бажані поля в initialValues а також додаємо до всіх полів Field пропс name відповідно початкових станів
+8) Передаємо у Formik обробник і початковий стан   <Formik initialValues={{ initialValues }} onSubmit={handleSubmit}> */

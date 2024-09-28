@@ -15,6 +15,9 @@
     border-radius: 8px;
     transition: all 0.4s ease;
     font-weight: bold;
+   &:disabled {
+      background-color: rgb(226, 221, 221);
+    }
     &:hover {
       background-color: lightblue;
       cursor: pointer;
