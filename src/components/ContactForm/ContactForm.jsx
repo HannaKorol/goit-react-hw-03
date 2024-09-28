@@ -1,6 +1,7 @@
 import { useId } from "react"; // хук useId для створення унікальних ідентифікаторів полів. ("Елементи форми")
 import { nanoid } from "nanoid";
-import { Field, Form, Formik } from "formik";
+import { ErrorMessage, Field, Form, Formik } from "formik";
+import * as Yup from "yup";
 import s from "./ContactForm.module.css";
 
 export default function ContactForm() {
@@ -18,9 +19,27 @@ export default function ContactForm() {
     actions.resetForm();
   };
 
+const regexPhoneNumber = /\(?([0-9]{3})\)?([ .-]?)([0-9]{3})\2([0-9]{4})/;
+
+  const contactSchema = Yup.object().shape({
+    username: Yup.string()
+      .min(3, "Must be more than 3 characters")
+      .max(50, "Must be no longer than 50 characters")
+      .required("Required"),
+    number: Yup.string()
+      .min(3, "Must be more than 3 characters")
+      .max(50, "Must be no longer than 50 characters")
+      .matches(regexPhoneNumber, 'Please enter a valid phone number')
+      .required("Required"),
+  });
+
   return (
     <div className={s.formWrapper}>
-      <Formik initialValues={{ initialValues }} onSubmit={handleSubmit}>
+      <Formik
+        initialValues={initialValues}
+        onSubmit={handleSubmit}
+        validationSchema={contactSchema}
+      >
         {(
           { values } //values - щоб зробити кнопку не активною коли немає номеру телефону чи имя
         ) => (
@@ -34,6 +53,11 @@ export default function ContactForm() {
                 className={s.input}
                 placeholder="Ведіть імя"
               />
+              <ErrorMessage
+                name="username"
+                component="div"
+                className={s.error}
+              />
             </label>
             <label htmlFor={numberFieldId} className={s.label}>
               <span>Number</span>
@@ -44,7 +68,8 @@ export default function ContactForm() {
                 className={s.input}
                 placeholder="Ведіть номер"
               />
-            </label> 
+              <ErrorMessage name="number" component="div" className={s.error} />
+            </label>
             <button disabled={!values.name && !values.number} type="submit">
               Add contact
             </button>
@@ -57,7 +82,6 @@ export default function ContactForm() {
 
 /* замість input ми використовуємо в Formik бібліотеці Field*/
 /* Замість form використовуємо Form */
-
 
 /* План використанння Formik
 1) Встановити цю бібліотеку 

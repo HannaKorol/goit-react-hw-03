@@ -1,7 +1,9 @@
 .formWrapper {
   display: flex;
 }
-
+.error {
+  color:red;
+}
 .form {
   display: flex;
   flex-direction: column;
