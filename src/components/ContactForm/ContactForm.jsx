@@ -16,7 +16,7 @@ export default function ContactForm({ onAdd }) {
   const handleSubmit = (values, actions) => {
     //Функція відправки форми має два параметри: values - об'єкт значень полів форми в момент її відправки. actions - об'єкт з допоміжними методами. Наприклад, метод resetForm використовується для очищення полів форми після відправки.
     const newContact = {
-      id: nanoid(),
+      id: nanoid(), 
       name: values.name,
       number: values.number,
     };
@@ -25,11 +25,11 @@ export default function ContactForm({ onAdd }) {
     actions.resetForm();
   };
 
-  const regexPhoneNumber = /\(?([0-9]{3})\)?([ .-]?)([0-9]{3})\2([0-9]{4})/;
+  const regexPhoneNumber = /\(?([0-9]{3})\)?([ .-]?)([0-9]{3})\2([0-9]{4})/; //validation of the number field if a valid number provided. 
 
   const contactSchema = Yup.object().shape({
     name: Yup.string()
-      .min(3, "Must be more than 3 characters")
+      .min(3, "Must be more than 3 characters") // перше значчення показує число символів, друге - якщо меньше ніж потрібно символів.
       .max(50, "Must be no longer than 50 characters")
       .required("Required"),
     number: Yup.string()
@@ -47,7 +47,7 @@ export default function ContactForm({ onAdd }) {
         validationSchema={contactSchema}
       >
         {(
-          { values } //values - щоб зробити кнопку не активною коли немає номеру телефону чи имя
+          { values } //values - щоб зробити кнопку не активною коли немає номеру телефону чи имя (Лекція 1)
         ) => (
           <Form className={s.form}>
             <label htmlFor={nameFieldId} className={s.label}>
@@ -57,7 +57,7 @@ export default function ContactForm({ onAdd }) {
                 name="name"
                 id={nameFieldId}
                 className={s.input}
-                placeholder="Ведіть імя"
+                placeholder="Enter your name"
               />
               <ErrorMessage
                 name="name"
@@ -72,7 +72,7 @@ export default function ContactForm({ onAdd }) {
                 name="number"
                 id={numberFieldId}
                 className={s.input}
-                placeholder="Ведіть номер"
+                placeholder="Enter your phone number"
               />
               <ErrorMessage name="number" component="div" className={s.error} />
             </label>

@@ -14,6 +14,13 @@ export default function App() {
     }); // prevContacts - is the initial state of the useState at the moment of reloading/adding new value;
   };  // Функція зміни стану
 
+//Запис значення полів форми до Локал сториджу
+  useEffect(() => {
+    window.localStorage.setItem("saved-contacts", JSON.stringify(contacts));
+  }, [contacts]);
+
+      const savedContact = window.localStorage.getItem("contacts");
+
   const deleteContact = (contactId) => {
     setContacts((prevContacts) => {
       return prevContacts.filter((contact) => contact.id !== contactId );
