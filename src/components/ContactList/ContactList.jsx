@@ -10,8 +10,9 @@ export default function ContactList({ contacts, onDelete }) {
           <Contact
             name={contact.name}
             number={contact.number}
-/*             data={contact}
- */            onDelete={onDelete}
+            onDelete={() =>
+              onDelete(contact.id)
+            } /* Передаємо id контакту для видалення */
           />
         </li>
       ))}

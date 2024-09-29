@@ -16,20 +16,20 @@ export default function ContactForm({ onAdd }) {
   const handleSubmit = (values, actions) => {
     //Функція відправки форми має два параметри: values - об'єкт значень полів форми в момент її відправки. actions - об'єкт з допоміжними методами. Наприклад, метод resetForm використовується для очищення полів форми після відправки.
     const newContact = {
-      id: nanoid(), 
+      id: nanoid(),
       name: values.name,
       number: values.number,
     };
-    onAdd(newContact); // Додаємо новий контакт
-    console.log(values);
+    onAdd(newContact); // Додаємо новий контакт за створенним шаблоном newContact
     actions.resetForm();
   };
 
-  const regexPhoneNumber = /\(?([0-9]{3})\)?([ .-]?)([0-9]{3})\2([0-9]{4})/; //validation of the number field if a valid number provided. 
+  const regexPhoneNumber = /\(?([0-9]{3})\)?([ .-]?)([0-9]{3})\2([0-9]{4})/; //validation of the number field if a valid number provided.
 
   const contactSchema = Yup.object().shape({
+    //валідація  полів форми бібліотекою Yup та виведи повідомлення про помилки:
     name: Yup.string()
-      .min(3, "Must be more than 3 characters") // перше значчення показує число символів, друге - якщо меньше ніж потрібно символів.
+      .min(3, "Must be more than 3 characters") // перше значення показує число символів, друге - якщо меньше ніж потрібно символів.
       .max(50, "Must be no longer than 50 characters")
       .required("Required"),
     number: Yup.string()
@@ -59,11 +59,7 @@ export default function ContactForm({ onAdd }) {
                 className={s.input}
                 placeholder="Enter your name"
               />
-              <ErrorMessage
-                name="name"
-                component="div"
-                className={s.error}
-              />
+              <ErrorMessage name="name" component="div" className={s.error} />
             </label>
             <label htmlFor={numberFieldId} className={s.label}>
               <span>Number</span>
