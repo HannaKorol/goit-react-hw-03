@@ -5,38 +5,44 @@ import ContactList from "./ContactList/ContactList";
 import { useEffect, useState } from "react";
 
 export default function App() {
-    const [contacts, setContacts] = useState(initialContacts); //оголосили стан компонента
-    const [filter, setFilter] = useState('');
+  const [filter, setFilter] = useState("");
 
- const addContact = (newContact) => {
-    setContacts((prevContacts) => {
-      return [...prevContacts, newContact];
-    }); // prevContacts - is the initial state of the useState at the moment of reloading/adding new value;
-  };  // Функція зміни стану
+  const getContacts = () => {
+    const savedContacts = localStorage.getItem("saved-contacts");
+    if (savedContacts) {
+      return [...initialContacts, ...JSON.parse(savedContacts)];
+    }
+    return initialContacts;
+  };
 
-//Запис значення полів форми до Локал сториджу
+  const [contacts, setContacts] = useState(getContacts); //оголосили стан компонента
+  //Запис значення полів форми до Локал сториджу
   useEffect(() => {
     window.localStorage.setItem("saved-contacts", JSON.stringify(contacts));
   }, [contacts]);
 
-      const savedContact = window.localStorage.getItem("contacts");
+  const addContact = (newContact) => {
+    setContacts((prevContacts) => {
+      return [...prevContacts, newContact];
+    }); // prevContacts - is the initial state of the useState at the moment of reloading/adding new value;
+  }; // Функція зміни стану
 
   const deleteContact = (contactId) => {
     setContacts((prevContacts) => {
-      return prevContacts.filter((contact) => contact.id !== contactId );
+      return prevContacts.filter((contact) => contact.id !== contactId);
     });
   };
 
-   const visibleContacts = contacts.filter((contact) =>
-     contact.name.toLowerCase().includes((filter || "").toLowerCase())
-   );
-    
-    return (
-      <div>
-        <h1>Phonebook</h1>
-        <ContactForm onAdd={addContact} />
-        <SearchBox value={filter} onFilter={setFilter} />
-        <ContactList contacts={visibleContacts} onDelete={deleteContact} />
-      </div>
-    );
-};
+  const visibleContacts = contacts.filter((contact) =>
+    contact.name.toLowerCase().includes((filter || "").toLowerCase())
+  );
+
+  return (
+    <div>
+      <h1>Phonebook</h1>
+      <ContactForm onAdd={addContact} />
+      <SearchBox value={filter} onFilter={setFilter} />
+      <ContactList contacts={visibleContacts} onDelete={deleteContact} />
+    </div>
+  );
+}
