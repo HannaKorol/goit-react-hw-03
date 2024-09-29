@@ -33,8 +33,8 @@ export default function ContactForm({ onAdd }) {
       .max(50, "Must be no longer than 50 characters")
       .required("Required"),
     number: Yup.string()
-      .min(3)
-      .max(50)
+      .min(3, "Must be more than 3 characters")
+      .max(50, "Must be no longer than 50 characters")
       .matches(regexPhoneNumber, "Please enter a valid phone number")
       .required("Required"),
   });
